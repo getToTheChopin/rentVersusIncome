@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="#" />
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+
+<body>
+
+    <h2>Canadian Rent Prices versus Income</h2>
+
+    <div id="my_dataviz"></div>
+
+    <span>Region focus: </span>
+    <select name="regionFocus" class="filterRegionInput" id="regionFocusMenu">
+        <option value="All">All</option>
+        <option value="Atlantic">Atlantic</option>
+        <option value="Quebec">Quebec</option>
+        <option value="Ontario">Ontario</option>
+        <option value="Prairies">Prairies</option>
+        <option value="BC">BC</option>
+    </select>
+
+    <span>Apartment Size: </span>
+    <select name="aparmentSize" class="apartmentSizeInput" id="apartmentSizeMenu">
+        <option value="bachelor">Bachelor</option>
+        <option value="1 Bed">1 Bed</option>
+        <option value="2 Bed" selected="selected">2 Bed</option>
+        <option value="3 Bed" >3 Bed</option>
+    </select>
+
+
+    &nbsp;
+
+    <h2>Final Thoughts</h2>
+
+    <p>Data source:</p>
+    <p><a href="https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=3410013301" rel="noopener" target="_blank">Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over</a></p>
+
+    &nbsp;
+
+</body>
+
+<script src="rentVersusIncomeScript.js"></script>

@@ -1,0 +1,88 @@
+html{
+    font-family: helvetica;
+    font-size: 14px;
+}
+
+.dot{
+    shape-rendering: geometricPrecision;
+    fill: #40c5a6;
+    stroke: white;
+    stroke-width: "2";
+}
+
+.xAxis, .yAxis {
+    font-size: 0.85em;
+}
+
+div.tooltip {	
+    position: absolute;			
+    text-align: left;			
+    width: 115px;					
+    /*height: 50px;*/					
+    padding: 2px 2px 2px 3px;				
+    font: 12px helvetica;		
+    background: rgb(243, 248, 255);	
+    border: 1px solid gray;		
+    border-radius: 4px;			
+    pointer-events: none;			
+}
+
+#chartSpace {
+    border: 1px solid gray;
+    background-color: rgb(240, 240, 240);
+    margin: 8px;
+}
+
+.axisLabel {
+    font-family:helvetica;
+    font-size:1.05em;
+    font-weight:bold;
+}
+
+/*styling for grid lines*/
+.xGrid line, .yGrid line {
+    stroke: rgb(192, 192, 192);
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+  
+.xGrid path, .yGrid path {
+    stroke-width: 0;
+}
+
+
+/*Style for crosshair lines -- bisect on x/y axis when hovering*/
+
+.crosshairLine{
+    stroke: rgb(168, 24, 113);
+    stroke-width: 2px;
+    stroke-dasharray: 2;
+    pointer-events: none;			
+}
+
+
+.regression {
+    stroke-width: 2px;
+    stroke: rgb(32, 24, 148);
+    stroke-dasharray: 4;
+    pointer-events: none;
+}
+
+.equationWrapper {
+    font-size: 12px;
+    margin-top: 10px;
+    text-align: center;
+    fill:white;
+    stroke: rgb(168, 24, 113);
+    stroke-width: 2px;
+    width:130px;
+    height:100px;
+}
+
+.equation {
+    font-size:0.88em;
+    fill:rgb(32, 24, 148);
+    width:130px;
+    height:100px;
+    /*font-style:italic;*/
+}
