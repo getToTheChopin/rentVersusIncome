@@ -9,28 +9,113 @@
 
 <body>
 
+    <h1>Article Title</h1>
+
+    &nbsp;
+
+    <h2>US Rent Prices versus Income</h2>
+
+    <div id="US_dataviz"></div>
+
+    <table>
+
+        <tr>
+            <th class="textColour2">Apartment Size:</th>
+            <th class="textColour3">Population Filter:</th>
+            <th class="textColour1">Region Filter:</th>
+        </tr>
+
+        <tr>
+
+            <td>
+                <select name="aparmentSize" class="USApartmentSizeInput selectMenu" id="USApartmentSizeMenu">
+                    <option value="1 Bed">1 Bed</option>
+                    <option value="2 Bed" selected="selected">2 Bed</option>
+                </select>
+            </td>
+
+            <td>
+                <select name="populationSize" class="USPopulationSizeInput selectMenu" id="USPopulationSizeMenu">
+                    <option value="All" selected="selected">All</option>
+                    <option value="Large">Large</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Small">Small</option>
+                </select>
+            </td>
+
+            <td>
+                <select name="regionFocus" class="USFilterRegionInput selectMenu" id="USRegionFocusMenu">
+                    <option value="All" selected="selected">All</option>
+                    <option value="Northeast">Northeast</option>
+                    <option value="Midwest">Midwest</option>
+                    <option value="West">West</option>
+                    <option value="South">South</option>
+                </select>
+            </td>
+
+        </tr>
+
+    </table>
+
+    &nbsp;
+
     <h2>Canadian Rent Prices versus Income</h2>
 
-    <div id="my_dataviz"></div>
+    <div id="CAN_dataviz"></div>
 
-    <span>Region focus: </span>
-    <select name="regionFocus" class="filterRegionInput" id="regionFocusMenu">
-        <option value="All">All</option>
-        <option value="Atlantic">Atlantic</option>
-        <option value="Quebec">Quebec</option>
-        <option value="Ontario">Ontario</option>
-        <option value="Prairies">Prairies</option>
-        <option value="BC">BC</option>
-    </select>
+    <table>
 
-    <span>Apartment Size: </span>
-    <select name="aparmentSize" class="apartmentSizeInput" id="apartmentSizeMenu">
-        <option value="bachelor">Bachelor</option>
-        <option value="1 Bed">1 Bed</option>
-        <option value="2 Bed" selected="selected">2 Bed</option>
-        <option value="3 Bed" >3 Bed</option>
-    </select>
+        <tr>
+            <th class="textColour2">Apartment Size:</th>
+            <th class="textColour1">Region Filter:</th>
+        </tr>
 
+        <tr>
+
+            <td>
+                <select name="aparmentSize" class="apartmentSizeInput selectMenu" id="apartmentSizeMenu">
+                    <option value="bachelor">Bachelor</option>
+                    <option value="1 Bed">1 Bed</option>
+                    <option value="2 Bed" selected="selected">2 Bed</option>
+                    <option value="3 Bed" >3 Bed</option>
+                </select>
+            </td>
+
+            <td>
+                <select name="regionFocus" class="filterRegionInput selectMenu" id="regionFocusMenu">
+                    <option value="All">All</option>
+                    <option value="Atlantic">Atlantic</option>
+                    <option value="Quebec">Quebec</option>
+                    <option value="Ontario">Ontario</option>
+                    <option value="Prairies">Prairies</option>
+                    <option value="BC">BC</option>
+                </select>
+            </td>
+
+        </tr>
+
+    </table>
+
+    &nbsp;
+
+    <h2>Full Data Table</h2>
+
+    <div id="dataTableWrapper">
+
+        <table id="dataTable">
+            <tr>
+                <th class="leftAlignCell">City</th>
+                <th class="leftAlignCell">Province</th>
+                <th class="rightAlignCell"># of Households</th>
+                <th class="rightAlignCell">Monthly After-Tax Income</th>
+                <th class="rightAlignCell">Bachelor Rent</th>
+                <th class="rightAlignCell">1 Bedroom Rent</th>
+                <th class="rightAlignCell">2 Bedroom Rent</th>
+                <th class="rightAlignCell">3 Bedroom Rent</th>
+            </tr>
+        </table>
+
+    </div>
 
     &nbsp;
 

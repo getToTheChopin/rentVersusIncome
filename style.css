@@ -3,18 +3,49 @@ html{
     font-size: 14px;
 }
 
-.dot{
+body {
+    width: 800px;
+    margin:auto;
+}
+
+#CAN_dataviz, #US_dataviz{
+    text-align:center;
+}
+
+#chartSpace, #USChartSpace {
+    border: 1px solid gray;
+    background-color: rgb(4, 0, 39);
+    /*background-color: rgb(250, 255, 253);*/
+    margin: 8px;
+}
+
+.dot {
     shape-rendering: geometricPrecision;
-    fill: #40c5a6;
+    fill: #79d6c1;
+    /*    fill: #40c5a6;*/
     stroke: white;
-    stroke-width: "2";
+    stroke-width: 1.5;
 }
 
-.xAxis, .yAxis {
+.USdot{
+    shape-rendering: geometricPrecision;
+    stroke: white;
+    stroke-width: 1.5;
+}
+
+.xAxis, .yAxis, .USxAxis, .USyAxis {
     font-size: 0.85em;
+    color: white;
 }
 
-div.tooltip {	
+.chartTitle, .USchartTitle {
+    font-family: helvetica;
+    font-size:19px;
+    font-weight:bold;
+    fill: white;
+}
+
+div.tooltip, div.UStooltip {	
     position: absolute;			
     text-align: left;			
     width: 115px;					
@@ -27,48 +58,55 @@ div.tooltip {
     pointer-events: none;			
 }
 
-#chartSpace {
-    border: 1px solid gray;
-    background-color: rgb(240, 240, 240);
-    margin: 8px;
-}
 
-.axisLabel {
+.xAxisLabel, .yAxisLabel, .USxAxisLabel, .USyAxisLabel {
     font-family:helvetica;
     font-size:1.05em;
     font-weight:bold;
+    fill:white;
 }
 
 /*styling for grid lines*/
-.xGrid line, .yGrid line {
-    stroke: rgb(192, 192, 192);
+.xGrid line, .yGrid line, .USxGrid line, .USyGrid line {
+    stroke: rgb(92, 92, 92);
     stroke-opacity: 0.7;
     shape-rendering: crispEdges;
+    fill:white;
 }
   
-.xGrid path, .yGrid path {
+.xGrid path, .yGrid path, .USxGrid path, .USyGrid path {
     stroke-width: 0;
 }
 
 
 /*Style for crosshair lines -- bisect on x/y axis when hovering*/
 
-.crosshairLine{
-    stroke: rgb(168, 24, 113);
+.crosshairLine {
+    stroke: rgb(204, 24, 135);
+    /*stroke: rgb(168, 24, 113);*/
     stroke-width: 2px;
     stroke-dasharray: 2;
     pointer-events: none;			
 }
 
-
-.regression {
+.UScrosshairLine {
+    stroke: #79d6c1;
+    /*stroke: rgb(168, 24, 113);*/
     stroke-width: 2px;
-    stroke: rgb(32, 24, 148);
+    stroke-dasharray: 2;
+    pointer-events: none;	
+}
+
+
+.regression, .USregression {
+    stroke-width: 2px;
+    stroke: rgb(199, 194, 247);
+    /*stroke: rgb(32, 24, 148);*/
     stroke-dasharray: 4;
     pointer-events: none;
 }
 
-.equationWrapper {
+.equationWrapper, .USequationWrapper {
     font-size: 12px;
     margin-top: 10px;
     text-align: center;
@@ -79,10 +117,133 @@ div.tooltip {
     height:100px;
 }
 
-.equation {
+.equation, .USequation {
     font-size:0.88em;
-    fill:rgb(32, 24, 148);
+    fill: rgb(199, 194, 247);
     width:130px;
     height:100px;
     /*font-style:italic;*/
+}
+
+.dataLabel {
+    fill: rgb(4, 0, 39);
+    opacity: 0.8;
+    font-size: 12px;
+    font-style: italic;
+    pointer-events: none;
+}
+
+.USdataLabel {
+    fill: white;
+    opacity: 0.8;
+    font-size: 12px;
+    font-style: italic;
+    pointer-events: none;
+}
+
+
+/* Table Styling */
+table {
+    border-collapse: collapse;
+    margin:auto;
+    font-size:1em;
+    max-width:90%;
+    width:700px;
+}
+
+th {
+    border: 1px solid rgb(126, 126, 126);
+    padding: 5px;
+    text-align: center;
+    vertical-align:middle;
+	border-collapse: collapse;
+    /*background-color: rgb(240, 240, 240);*/
+    background-color: rgb(199, 194, 247);
+    color: rgb(4, 0, 39);
+}
+
+.textColour1{
+    color: rgb(4, 0, 39);
+    /*color: #148fae;*/
+    font-size:1.1em;
+}
+
+.textColour2{
+    color: rgb(4, 0, 39);
+    /*color: #FF5733;*/
+    font-size:1.1em;
+}
+
+td {
+    border: 1px solid rgb(126, 126, 126);
+    padding: 8px 5px 8px 5px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: white;
+    border-collapse: collapse;  
+}
+
+
+/* Styling for html drop down select menu */
+.selectMenu {
+	font-weight: bold;
+	padding: 4px 8px 4px 8px;
+	border-radius: 4px;
+    margin-bottom: 3px;
+    display:block;
+    text-align:center;
+    margin:auto;
+    width:90%;	
+}
+
+
+.filterRegionInput, .USFilterRegionInput{
+    border: 2px solid #40c5a6;
+    background-color: #fdffff;
+}
+
+.apartmentSizeInput, .USApartmentSizeInput{
+    border:2px solid rgb(168, 24, 113);
+    background-color:rgb(255, 252, 253);
+}
+
+.filterRegionInput:focus, .USFilterRegionInput:focus {
+    border:2px solid #40c5a6;
+    background-color: #fdffff;
+    outline: none;
+}
+
+.apartmentSizeInput:focus, .USApartmentSizeInput:focus {
+    border:2px solid rgb(168, 24, 113);
+    background-color:rgb(255, 252, 253);
+    outline: none;
+}
+
+#dataTable{
+    color: rgb(4, 0, 39);
+    width:700px;
+}
+
+#dataTableWrapper{
+    margin-top:30px;
+}
+
+#dataTable th{
+    background-color: rgb(4, 0, 39);
+    color: white;
+}
+
+#dataTable td {
+    border-top: 1px solid rgb(201, 201, 201);
+    border-bottom: 1px solid rgb(201, 201, 201);
+    border-left: none;
+    border-right: none;
+}
+
+.leftAlignCell{
+    text-align: left;
+}
+
+.rightAlignCell{
+    text-align: right;
 }
