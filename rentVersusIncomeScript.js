@@ -1,17 +1,14 @@
 /*
 To do:
-Animation between years?
-Add sortable table below -- city, income, rent (1 bed, 2 bed, etc...), rent to income ratio %, # households
-Other formatting
-US city data on a separate chart?
+
+Add source links, download file
+Spot check data
+
+Canada
+Other formatting??
 
 US
-Need to fix coefficient for linear trendline -- currently printing Canadian value --
-separate regression function call for each of CAN and US?
-Chart change function -- 1 bed vs 2 bed
 Pick different & new chart data labels -- change based on filter for region / size?
-Remove mouse on when filtered out -- so that it's easier to hover over highlighted bubbles
-Formatting for Population Filter column -- header, and select menu border color
 Button for "Color Code by Region" -- if checked, show each region group in a different colour -- and add legend at the top left
 */
 
@@ -24,6 +21,9 @@ var chartWidth;
 var margin;
 var width;
 var height;
+
+var linearTrendlineToggle = "";
+var tableToggle = "";
 
 
 //US chart inputs
@@ -56,6 +56,7 @@ var USxScaleMin = 3000;
 var USxScaleMax1 = 11000;
 var USxScaleMax2 = 7500;
 
+
 //use this to scale y-axis min and max domain, depending on the user selection for # of bedrooms
 var USyScaleMin = 600;
 var USyScaleMax1 = 3700;
@@ -79,6 +80,18 @@ var USlinearRegressionOutputs = {};
 var USdotColour = "#CC1887";
 var USdotHighlightColour = "#FF009D";
 var USdotFadeColour = "gray";
+
+var USdotColour1 = "blue";
+var USdotHighlightColour1 = "blue";
+
+var USdotColour2 = "green";
+var USdotHighlightColour2 = "green";
+
+var USdotColour3 = "yellow";
+var USdotHighlightColour3 = "yellow";
+
+var USdotColour4 = "purple";
+var USdotHighlightColour4 = "purple";
 
 
 //Canadian chart inputs
@@ -252,7 +265,7 @@ function setupCANChartSkeleton(){
         "translate(" + (width/2) + " ," + 
                         (height + margin.top+10) + ")")
         .style("text-anchor", "middle")
-        .text("Household Income (Monthly, After-Tax Avg.)");
+        .text("Household Income (Monthly After-Tax Median)");
 
     // Add Y axis
     y = d3.scaleLinear()
@@ -471,6 +484,7 @@ function initializeCANChart(){
             console.log("Selected X Values: "+selectedXValues);
             console.log("Selected Y Values: "+selectedYValues);
 
+            linearTrendlineToggle = "Canada";
 
             //Draw linear trendline
             var linearTrendline = calcLinear(
@@ -491,8 +505,9 @@ function initializeCANChart(){
                 .attr("y2", y(linearTrendline.ptB.y));
 
             //create HTML table from CSV data
+            tableToggle = "Canada";
             console.log("create html table")
-            createTableFromJSON(jsonArray);
+            createTableFromJSON(jsonArray, "CanadianTable");
                 
         }
 
@@ -651,6 +666,8 @@ function changeCANChartData(){
 
     console.log("Selected X Values: "+selectedXValues);
     console.log("Selected Y Values: "+selectedYValues);
+
+    linearTrendlineToggle = "Canada";
 
     //Re-draw linear trendline
     var linearTrendline = calcLinear(
@@ -812,7 +829,7 @@ function setupUSChartSkeleton(){
         "translate(" + (width/2) + " ," + 
                         (height + margin.top+10) + ")")
         .style("text-anchor", "middle")
-        .text("Household Income (Monthly Median)");
+        .text("Household Income (Monthly Pre-Tax Median)");
 
     // Add Y axis
     USy = d3.scaleLinear()
@@ -832,7 +849,7 @@ function setupUSChartSkeleton(){
         .attr("x",0 - (height / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
-        .text(UStitleString+ " - Avg. Monthly Rent");   
+        .text(UStitleString+ " - Median Monthly Rent");   
 
     //div for tooltip
     UStooltipDiv = d3.select("body").append("div")
@@ -902,7 +919,6 @@ function initializeUSChart(){
         currentObject["usState"] = data.usState;
         currentObject["usRegion"] = data.usRegion;
         currentObject["usNumHH"] = +data.usNumHH;
-        currentObject["usMedianHHIncome"] = +data.usMedianHHIncome;
         currentObject["usMedianMonthlyHHIncome"] = +data.usMedianMonthlyHHIncome;
         currentObject["us1BedRent"] = +data.us1BedRent;
         currentObject["us2BedRent"] = +data.us2BedRent;
@@ -926,13 +942,14 @@ function initializeUSChart(){
                 UStooltipDiv.transition()
                     .duration(250)
                     .style("opacity", .85);
-                UStooltipDiv.html("<b>"+d.usCity+"</b><br>"
-                +"Rent: $"+Math.round(eval(USdataString)).toLocaleString()+"<br>"
-                +"Income: $"+Math.round(d.usMedianMonthlyHHIncome).toLocaleString()+"<br>"
-                +"% Ratio: "+Math.round((eval(USdataString) / d.usMedianMonthlyHHIncome)*1000)/10+"%<br>"
-                +"# households: "+Math.round(d.usNumHH/1000).toLocaleString()+"k")
-                    .style("left", (event.pageX + 20) + "px")
-                    .style("top", (event.pageY - 20) + "px");
+                UStooltipDiv.html(
+                    "<b>"+d.usCity+", "+d.usState+"</b><br>"
+                    +"Rent: $"+Math.round(eval(USdataString)).toLocaleString()+"<br>"
+                    +"Income: $"+Math.round(d.usMedianMonthlyHHIncome).toLocaleString()+"<br>"
+                    +"% Ratio: "+Math.round((eval(USdataString) / d.usMedianMonthlyHHIncome)*1000)/10+"%<br>"
+                    +"# households: "+Math.round(d.usNumHH/1000).toLocaleString()+"k")
+                        .style("left", (event.pageX + 20) + "px")
+                        .style("top", (event.pageY - 20) + "px");
                 USsvg.append('line') //vertical crosshair line
                     .attr("class","UScrosshairLine")
                     .attr("x1", USx(d.usMedianMonthlyHHIncome))
@@ -974,21 +991,20 @@ function initializeUSChart(){
                 .append("text")                
                     .attr("class","USdataLabel")
                     .text(function(d){
-                        if(d.usCity == "San Francisco" || d.usCity == "New York" || d.usCity == "Miami" ||  d.usCity == "San Jose"){
+                        if(d.usCity == "San Francisco" || d.usCity == "New York"
+                        || d.usCity == "Miami" ||  d.usCity == "San Jose"
+                        || d.usCity == "Los Angeles" || d.usCity == "Seattle" 
+                        || d.usCity == "Boston" || d.usCity == "Washington"
+                        || d.usCity == "Minneapolis" ){
                             return d.usCity;
                         } else {
                             return "";
                         }
                     })
                     .attr("x", function (d) { 
-            
-                        if(d.usCity == "San Francisco"){
-                            return USx(d.usMedianMonthlyHHIncome) - 20; 
-                        } else if(d.usCity == "New York"){
-                            return USx(d.usMedianMonthlyHHIncome) - 20; 
-                        } else if(d.usCity == "Miami"){
-                            return USx(d.usMedianMonthlyHHIncome) - 20; 
-                        } else if(d.usCity == "San Jose"){
+                        if(d.usCity == "San Francisco" || d.usCity == "Los Angeles"){
+                            return USx(d.usMedianMonthlyHHIncome) - 35; 
+                        } else{
                             return USx(d.usMedianMonthlyHHIncome) - 20; 
                         }
                     } )
@@ -1008,6 +1024,7 @@ function initializeUSChart(){
             console.log("US Selected X Values: "+USselectedXValues);
             console.log("US Selected Y Values: "+USselectedYValues);
 
+            linearTrendlineToggle = "US";
 
             //Draw linear trendline
             var linearTrendline = calcLinear(
@@ -1027,11 +1044,12 @@ function initializeUSChart(){
                 .attr("x2", USx(linearTrendline.ptB.x))
                 .attr("y2", USy(linearTrendline.ptB.y));
 
-                /*
+
             //create HTML table from CSV data
+            tableToggle = "US";
             console.log("create html table")
-            createTableFromJSON(jsonArray);
-            */
+            createTableFromJSON(USjsonArray, "USTable");
+
                 
         }
 
@@ -1045,7 +1063,7 @@ function initializeUSChart(){
 
     //update Y-Axis text label
     USsvg.selectAll(".USyAxisLabel")
-        .text(UStitleString+ " - Avg. Monthly Rent"); 
+        .text(UStitleString+ " - Median Monthly Rent"); 
 
 
 }
@@ -1055,7 +1073,6 @@ function filterUSChart(){
     console.log("filter US chart");
 
     getUserInputs();
-
 
     console.log("region value: "+USRegionFocusValue + " population size: "+USPopulationSizeValue);
 
@@ -1075,35 +1092,42 @@ function filterUSChart(){
 
             if(USRegionFocusValue=="All" && (populationSize == USPopulationSizeValue || USPopulationSizeValue == "All")){
                 d3.select(this)
+                    .classed("noPointerEvents", false)
                     .transition().duration(400)
                     .style("fill",USdotColour)
                     .style("opacity", 1);
+
             } else if(d.usRegion=="Northeast" && USRegionFocusValue == "Northeast" && (populationSize == USPopulationSizeValue || USPopulationSizeValue == "All")){
                 d3.select(this)
+                    .classed("noPointerEvents", false)    
                     .transition().duration(400)
                     .style("fill",USdotColour)
                     .style("opacity", 1);
 
             } else if(d.usRegion=="Midwest" && USRegionFocusValue == "Midwest" && (populationSize == USPopulationSizeValue || USPopulationSizeValue == "All")){
                 d3.select(this)
+                    .classed("noPointerEvents", false)
                     .transition().duration(400)
                     .style("fill",USdotColour)
-                    .style("opacity", 1);  
+                    .style("opacity", 1);
 
             } else if(d.usRegion=="West" && USRegionFocusValue == "West" && (populationSize == USPopulationSizeValue || USPopulationSizeValue == "All")){
                 d3.select(this)
+                    .classed("noPointerEvents", false)    
                     .transition().duration(400)
                     .style("fill",USdotColour)
                     .style("opacity", 1);
   
             } else if(d.usRegion=="South" && USRegionFocusValue == "South" && (populationSize == USPopulationSizeValue || USPopulationSizeValue == "All")){
                 d3.select(this)
+                    .classed("noPointerEvents", false)   
                     .transition().duration(400)
                     .style("fill",USdotColour)
-                    .style("opacity", 1);  
+                    .style("opacity", 1);
 
             } else{
                 d3.select(this)
+                    .classed("noPointerEvents", true)
                     .transition().duration(400)
                     .style("fill",USdotFadeColour)
                     .style("opacity", 0.15);
@@ -1167,14 +1191,9 @@ function filterUSChart(){
         .delay(100)
         .duration(1200)    
         .attr("x", function (d) { 
-            
-            if(d.usCity == "San Francisco"){
-                return USx(d.usMedianMonthlyHHIncome) - 20; 
-            } else if(d.usCity == "New York"){
-                return USx(d.usMedianMonthlyHHIncome) - 20; 
-            } else if(d.usCity == "Miami"){
-                return USx(d.usMedianMonthlyHHIncome) - 20; 
-            } else if(d.usCity == "San Jose"){
+            if(d.usCity == "San Francisco" || d.usCity == "Los Angeles"){
+                return USx(d.usMedianMonthlyHHIncome) - 35; 
+            } else{
                 return USx(d.usMedianMonthlyHHIncome) - 20; 
             }
         } )
@@ -1189,6 +1208,8 @@ function filterUSChart(){
 
     USselectedXValues.length = 0;
     USselectedYValues.length = 0;
+
+    linearTrendlineToggle = "US";
 
     for(i=0; i<USjsonArray.length; i++){
 
@@ -1225,6 +1246,180 @@ function filterUSChart(){
 
 function changeUSChartData(){
     console.log("changeUSChartData");
+
+    getUserInputs();
+
+    var USdots = USsvg.selectAll(".USdot")
+        .data(USjsonArray)
+    
+    /*
+    //re-scale the Y-Axis max value depending on the largest y value in the data set
+    var yMaxValue = 0;
+    
+    d3.selectAll(".dot")
+        .each(function (d) {
+            var currentValue = eval(dataString);
+            if(currentValue > yMaxValue){
+                yMaxValue = currentValue;
+            }
+        });
+
+    console.log("Y Max Value: "+yMaxValue);
+
+    if(yMaxValue >= yScaleMax1){
+        y.domain([yScaleMin, yScaleMax2]);
+
+        svg.selectAll(".yAxis")
+            .transition().duration(1000)
+            .call(d3.axisLeft(y)
+                .tickFormat(d => "$"+d.toLocaleString())
+            );
+    
+        svg.selectAll(".yGrid")			
+            .call(make_y_gridlines()
+                .tickSize(-width)
+                .tickFormat("")
+            );
+    } else {
+        y.domain([yScaleMin, yScaleMax1]);
+
+        svg.selectAll(".yAxis")
+            .transition().duration(1000)
+            .call(d3.axisLeft(y)
+                .tickFormat(d => "$"+d.toLocaleString())
+            );
+    
+        svg.selectAll(".yGrid")			
+            .call(make_y_gridlines()
+                .tickSize(-width)
+                .tickFormat("")
+            );
+    }
+    */
+
+    //move data points based on new user data selection -- e.g., 1 bed rent vs 2 bed
+    USdots.transition()
+        .delay(100)
+        .duration(2000)
+        .attr("cx", function (d) { return USx(d.usMedianMonthlyHHIncome); } )
+        .attr("cy", function (d) { return USy(eval(USdataString)); } )
+        .attr("r", function (d) { return Math.sqrt(d.usNumHH)/60; } );
+
+
+    USdots.on("mouseover", function(event,d) {
+        d3.select(this)
+            .style("fill",USdotHighlightColour) // new fill colour upon hover
+        UStooltipDiv.transition()
+            .duration(250)
+            .style("opacity", .85);
+        UStooltipDiv.html(
+            "<b>"+d.usCity+", "+d.usState+"</b><br>"
+            +"Rent: $"+Math.round(eval(USdataString)).toLocaleString()+"<br>"
+            +"Income: $"+Math.round(d.usMedianMonthlyHHIncome).toLocaleString()+"<br>"
+            +"% Ratio: "+Math.round((eval(USdataString) / d.usMedianMonthlyHHIncome)*1000)/10+"%<br>"
+            +"# households: "+Math.round(d.usNumHH/1000).toLocaleString()+"k")
+                .style("left", (event.pageX + 20) + "px")
+                .style("top", (event.pageY - 20) + "px");
+        USsvg.append('line') //vertical crosshair line
+            .attr("class","UScrosshairLine")
+            .attr("x1", USx(d.usMedianMonthlyHHIncome))
+            .attr("y1", height)
+            .attr("x2", USx(d.usMedianMonthlyHHIncome))
+            .attr("y2", 0);
+        USsvg.append('line') //horizontal crosshair line
+            .attr("class","UScrosshairLine")
+            .attr("x1", 0)
+            .attr("y1", USy(eval(USdataString)))
+            .attr("x2", width)
+            .attr("y2", USy(eval(USdataString))); 
+    })
+    .on("mouseout", function(d) {
+        UStooltipDiv.transition()
+            .duration(400)
+            .style("opacity", 0);
+        d3.select(this)
+            .transition().duration(400)
+            .style("fill",USdotColour);
+        d3.selectAll(".UScrosshairLine")
+            .each(function(d){
+                d3.select(this)
+                .transition().duration(50)
+                .style("opacity", 0)
+                .remove();
+            });
+    });
+
+    //update Y-Axis text label
+    USsvg.selectAll(".USyAxisLabel")
+        .text(UStitleString+ " - Median Monthly Rent"); 
+
+    //update data labels
+    svg.selectAll(".dataLabel")
+        .transition()    
+        .delay(100)
+        .duration(2000)    
+        .attr("x", function (d) { 
+            
+            if(d.city == "Toronto"){
+                return x(d.monthlyAfterTaxIncome) - 20; 
+            } else if(d.city == "Montreal"){
+                return x(d.monthlyAfterTaxIncome) - 25; 
+            } else if(d.city == "Vancouver"){
+                return x(d.monthlyAfterTaxIncome) - 30; 
+            }
+        } )
+        .attr("y", function (d) { return y(eval(dataString))+3; } );
+
+
+    //update US data label positions
+    USsvg.selectAll(".USdataLabel")
+        .transition()    
+        .delay(100)
+        .duration(2000)    
+        .attr("x", function (d) { 
+            if(d.usCity == "San Francisco" || d.usCity == "Los Angeles"){
+                return USx(d.usMedianMonthlyHHIncome) - 35; 
+            } else{
+                return USx(d.usMedianMonthlyHHIncome) - 20; 
+            }
+        } )
+        .attr("y", function (d) { return USy(eval(USdataString))+3; } );
+
+
+    //get x and y values, and feed them to the linear regression analysis
+    console.log("US json array length: "+USjsonArray.length);
+
+    for(i=0; i<USjsonArray.length; i++){
+
+        USselectedXValues.push(USjsonArray[i].usMedianMonthlyHHIncome);
+        USselectedYValues.push(USjsonArray[i][USdataString.slice(2,USdataString.length)]);
+
+    }
+
+    console.log("US Selected X Values: "+USselectedXValues);
+    console.log("US Selected Y Values: "+USselectedYValues);
+
+    linearTrendlineToggle = "US";
+
+    //Draw linear trendline
+    var linearTrendline = calcLinear(
+        USjsonArray,
+        "usMedianMonthlyHHIncome",
+        USdataString.slice(2,USdataString.length),
+        d3.min(USjsonArray, function(d){ return d.usMedianMonthlyHHIncome }),
+        d3.max(USjsonArray, function(d){ return d.usMedianMonthlyHHIncome }),
+    );
+
+    console.log(linearTrendline);
+
+    d3.selectAll(".USregression")
+        .transition()
+        .delay(100)
+        .duration(2000)
+        .attr("x1", USx(linearTrendline.ptA.x))
+        .attr("y1", USy(linearTrendline.ptA.y))
+        .attr("x2", USx(linearTrendline.ptB.x))
+        .attr("y2", USy(linearTrendline.ptB.y));
 
 }
 
@@ -1299,36 +1494,39 @@ function calcLinear(data, x, y, minX, maxX){
     var b = (e - f) / n;
 
 
-    //US
-    USlinearRegressionOutputs = linearRegression(USselectedYValues, USselectedXValues);
-    console.log(USlinearRegressionOutputs);
+    if(linearTrendlineToggle == "US"){
+        //US
+        USlinearRegressionOutputs = linearRegression(USselectedYValues, USselectedXValues);
+        console.log(USlinearRegressionOutputs);
 
-    // Print the linear trendline equation below the chart
-    document.getElementsByClassName("USequation")[0].innerHTML =
-    "Linear Trendline:"
-    +"<br>"
-    +" y = "+ Math.round(m*1000)/1000 + "x + "
-    + Math.round(b*100)/100;
+        // Print the linear trendline equation below the chart
+        document.getElementsByClassName("USequation")[0].innerHTML =
+        "Linear Trendline:"
+        +"<br>"
+        +" y = "+ Math.round(m*1000)/1000 + "x + "
+        + Math.round(b*100)/100;
+
+        // Print the r-squared value
+        document.getElementsByClassName("USequation")[1].innerHTML =
+        "R-squared: "+Math.round(USlinearRegressionOutputs.r2*1000)/1000;
+    }
     
-    // Print the r-squared value
-    document.getElementsByClassName("USequation")[1].innerHTML =
-    "R-squared: "+Math.round(USlinearRegressionOutputs.r2*1000)/1000;
+    if(linearTrendlineToggle == "Canada"){
+        //Canada
+        linearRegressionOutputs = linearRegression(selectedYValues, selectedXValues);
+        console.log(linearRegressionOutputs);
 
-
-    //Canada
-    linearRegressionOutputs = linearRegression(selectedYValues, selectedXValues);
-    console.log(linearRegressionOutputs);
-
-    // Print the linear trendline equation below the chart
-    document.getElementsByClassName("equation")[0].innerHTML =
-    "Linear Trendline:"
-    +"<br>"
-    +" y = "+ Math.round(m*1000)/1000 + "x + "
-    + Math.round(b*100)/100;
-    
-    // Print the r-squared value
-    document.getElementsByClassName("equation")[1].innerHTML =
-    "R-squared: "+Math.round(linearRegressionOutputs.r2*1000)/1000;
+        // Print the linear trendline equation below the chart
+        document.getElementsByClassName("equation")[0].innerHTML =
+        "Linear Trendline:"
+        +"<br>"
+        +" y = "+ Math.round(m*1000)/1000 + "x + "
+        + Math.round(b*100)/100;
+        
+        // Print the r-squared value
+        document.getElementsByClassName("equation")[1].innerHTML =
+        "R-squared: "+Math.round(linearRegressionOutputs.r2*1000)/1000;
+    }
 
     // return an object of two points
     // each point is an object with an x and y coordinate
@@ -1372,7 +1570,7 @@ function linearRegression(y,x){
 }
 
 //https://www.encodedna.com/javascript/populate-json-data-to-html-table-using-javascript.htm
-function createTableFromJSON(jsonObject) {
+function createTableFromJSON(jsonObject, tableID) {
 
     /*
     // EXTRACT VALUE FOR HTML HEADER. 
@@ -1401,7 +1599,7 @@ function createTableFromJSON(jsonObject) {
 
     */
 
-    var table = document.getElementById("dataTable");
+    var table = document.getElementById(tableID);
 
     var col = [];
 
@@ -1421,21 +1619,44 @@ function createTableFromJSON(jsonObject) {
 
         tr = table.insertRow(-1);
 
-        for (var j = 0; j < col.length; j++) {
-            var tabCell = tr.insertCell(-1);
-            var currentValue = jsonObject[i][col[j]];
 
-            if(j==0 || j==1) {
-                tabCell.innerHTML = currentValue;
-                tabCell.classList.add("leftAlignCell");
-            } else if(j==2){
-                tabCell.innerHTML = currentValue.toLocaleString();
-                tabCell.classList.add("rightAlignCell");
-            } else {
-                tabCell.innerHTML = "$"+Math.round(currentValue).toLocaleString();
-                tabCell.classList.add("rightAlignCell");
+        if(tableToggle == "Canada"){
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                var currentValue = jsonObject[i][col[j]];
+    
+                if(j==0 || j==1) {
+                    tabCell.innerHTML = currentValue;
+                    tabCell.classList.add("leftAlignCell");
+                } else if(j==2){
+                    tabCell.innerHTML = currentValue.toLocaleString();
+                    tabCell.classList.add("rightAlignCell");
+                } else {
+                    tabCell.innerHTML = "$"+Math.round(currentValue).toLocaleString();
+                    tabCell.classList.add("rightAlignCell");
+                }
             }
         }
+
+        if(tableToggle == "US"){
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                var currentValue = jsonObject[i][col[j]];
+    
+                if(j==0 || j==1 || j==2) {
+                    tabCell.innerHTML = currentValue;
+                    tabCell.classList.add("leftAlignCell");
+                } else if(j==3){
+                    tabCell.innerHTML = currentValue.toLocaleString();
+                    tabCell.classList.add("rightAlignCell");
+                } else {
+                    tabCell.innerHTML = "$"+Math.round(currentValue).toLocaleString();
+                    tabCell.classList.add("rightAlignCell");
+                }
+            }
+        }
+
+
     }
 
     /*
