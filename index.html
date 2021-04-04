@@ -9,11 +9,27 @@
 
 <body>
 
-    <h1>Article Title</h1>
+    <h1>Rent Prices Versus Income in Major U.S. and Canadian Cities</h1>
+
+    <p>These interactive charts let you explore rent prices versus household income in major cities in the U.S. and Canada.</p>
+
+    <p>Dig into questions like:</p>
+    <ul>
+        <li>How do rent prices in New York compare against LA?</li>
+        <li>Are average incomes higher in Toronto or Vancouver?</li>
+        <li>Which city on the West Coast offers the best mix of high incomes and low rent prices?</li>
+        <li>What are the average 1 bedroom / 2 bedroom rent prices in my city?</li>
+    </ul>
+
+    <p>See the bottom of the page for a spreadsheet export and the underlying source data.</p>
+
+    <p>Enjoy!</p>
 
     &nbsp;
 
-    <h2>US Rent Prices versus Income</h2>
+    <h2>U.S. Rent Prices Versus Income</h2>
+
+    <p>Each "bubble" in the chart represents a city. The bubbles are sized based on the population in that city. Hover over any of the bubbles for more info.</p>
 
     <div id="US_dataviz"></div>
 
@@ -28,7 +44,7 @@
         <tr>
 
             <td>
-                <select name="aparmentSize" class="USApartmentSizeInput selectMenu" id="USApartmentSizeMenu">
+                <select name="apartmentSize" class="USApartmentSizeInput selectMenu" id="USApartmentSizeMenu">
                     <option value="1 Bed">1 Bed</option>
                     <option value="2 Bed" selected="selected">2 Bed</option>
                 </select>
@@ -59,7 +75,7 @@
 
     &nbsp;
 
-    <h2>Canadian Rent Prices versus Income</h2>
+    <h2>Canadian Rent Prices Versus Income</h2>
 
     <div id="CAN_dataviz"></div>
 
@@ -73,7 +89,7 @@
         <tr>
 
             <td>
-                <select name="aparmentSize" class="apartmentSizeInput selectMenu" id="apartmentSizeMenu">
+                <select name="apartmentSize" class="apartmentSizeInput selectMenu" id="apartmentSizeMenu">
                     <option value="bachelor">Bachelor</option>
                     <option value="1 Bed">1 Bed</option>
                     <option value="2 Bed" selected="selected">2 Bed</option>
@@ -96,9 +112,13 @@
 
     </table>
 
+    <p>Note that the Canadian income data is shown on an <em>after-tax</em> basis, while the U.S. incomes are shown on a <em>pre-tax</em> basis. Hence, they are not directly comparable.</p>
+
     &nbsp;
 
-    <h2>Detailed Data Tables</h2>
+    <h2>U.S. Data Table &#127482;&#127480;</h2>
+
+    <p><a href="https://drive.google.com/drive/u/0/folders/1ygsX4uK4tco_nLg7B2RhQogo44WVpLg_" rel="noopener" target="_blank">[Spreadsheet export]</a></p>
 
     <div class="dataTableWrapper">
 
@@ -115,6 +135,12 @@
         </table>
 
     </div>
+
+    &nbsp;
+
+    <h2>Canadian Data Table &#127464;&#127462;</h2>
+
+    <p><a href="https://drive.google.com/drive/u/0/folders/1ygsX4uK4tco_nLg7B2RhQogo44WVpLg_" rel="noopener" target="_blank">[Spreadsheet export]</a></p>
 
     <div class="dataTableWrapper">
 
@@ -135,11 +161,34 @@
 
     &nbsp;
 
-    <h2>Final Thoughts</h2>
+    <h2>Related Reading</h2>
 
-    <p>Data source:</p>
-    <p><a href="https://www150.statcan.gc.ca/t1/tbl1/en/cv.action?pid=3410013301" rel="noopener" target="_blank">Canada Mortgage and Housing Corporation, average rents for areas with a population of 10,000 and over</a></p>
+    <ul>
+        <li><a href="https://themeasureofaplan.com/history-of-home-prices/" rel="noopener" target="blank">A history of homes prices in North America</a></li>
+        <li><a href="https://themeasureofaplan.com/rent-versus-buy-calculator/" rel="noopener" target="blank">Rent versus buy calculator -- a spreadsheet for crunching the rent vs buy math</a></li>
+        <li><a href="https://themeasureofaplan.com/exploring-canadian-income/" rel="noopener" target="blank">Exploring Canadian income -- by geography, sex, and age</a></li>
+    </ul>
 
+    &nbsp;
+
+    <h2>Data Sources</h2>
+
+    <p>U.S. data sources:</p>
+    <ul>
+        <li>Income: <a href="https://data.census.gov/cedsci/table?q=S19&g=0100000US.310000&d=ACS%201-Year%20Estimates%20Subject%20Tables&tid=ACSST1Y2019.S1903&moe=false&hidePreview=false" rel="noopener" target="_blank">U.S. Census Bureau, 2019 Median Income by Metropolitan Statistical Area</a></li>
+        <li>Rent prices: <a href="https://www.zumper.com/blog/zumper-national-rent-report-march-2021/" rel="noopener" target="_blank">Zumper National Rent Report: March 2021</a></li>
+    </ul>
+
+    <p>Canadian data sources:</p>
+    <ul>
+        <li>Income: <a href="https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/hlt-fst/inc-rev/Table.cfm?Lang=Eng&T=107&S=88&O=A&RPP=25" rel="noopener" target="_blank">StatsCan income highlight tables, 2016 census</a></li>
+        <li>Rent prices: <a href="https://www150.statcan.gc.ca/t1/tbl1/en/cv!recreate.action?pid=3410013301&selectedNodeIds=1D125&checkedLevels=1D1,1D2,2D1&refPeriods=20160101,20200101&dimensionLayouts=layout2,layout3,layout2,layout2&vectorDisplay=false" rel="noopener" target="_blank">Canada Mortgage and Housing Corporation, 2020 average rents by city</a></li>
+    </ul>
+
+    &nbsp;
+
+    <p>---</p>
+    <p><em>Header image credit: <a href="https://romaintrystram.myportfolio.com/adobe-cannes-awards" rel="noopener" target="_blank">Romain Trystram</a></em></p>
     &nbsp;
 
 </body>

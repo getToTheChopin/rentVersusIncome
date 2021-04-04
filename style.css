@@ -1,8 +1,3 @@
-html{
-    font-family: helvetica;
-    font-size: 14px;
-}
-
 body {
     width: 800px;
     margin:auto;
@@ -10,37 +5,25 @@ body {
 
 #CAN_dataviz, #US_dataviz{
     text-align:center;
-}
-
-#chartSpace, #USChartSpace {
-    border: 1px solid gray;
-    background-color: rgb(4, 0, 39);
-    /*background-color: rgb(250, 255, 253);*/
-    margin: 8px;
-}
-
-.dot {
-    shape-rendering: geometricPrecision;
-    fill: #79d6c1;
-    /*    fill: #40c5a6;*/
-    stroke: white;
-    stroke-width: 1.5;
-}
-
-.USdot{
-    shape-rendering: geometricPrecision;
-    stroke: white;
-    stroke-width: 1.5;
+    font-family: helvetica;
+    font-size: 14px;
 }
 
 .xAxis, .yAxis, .USxAxis, .USyAxis {
-    font-size: 0.85em;
+    font-size: 0.66em;
     color: white;
+}
+
+.xAxisLabel, .yAxisLabel, .USxAxisLabel, .USyAxisLabel {
+    font-family:helvetica;
+    font-size:0.85em;
+    font-weight:bold;
+    fill:white;
 }
 
 .chartTitle, .USchartTitle {
     font-family: helvetica;
-    font-size:19px;
+    font-size:12px;
     font-weight:bold;
     fill: white;
 }
@@ -58,13 +41,67 @@ div.tooltip, div.UStooltip {
     pointer-events: none;			
 }
 
-
-.xAxisLabel, .yAxisLabel, .USxAxisLabel, .USyAxisLabel {
-    font-family:helvetica;
-    font-size:1.05em;
-    font-weight:bold;
-    fill:white;
+/* Table Styling */
+table {
+    border-collapse: collapse;
+    margin:auto;
+    font-size:0.8em;
+    max-width:90%;
 }
+
+/* conditional for screen size minimum of 700px */
+@media (min-width:700px) {
+/* your conditional / responsive CSS inside this condition */
+
+    #CAN_dataviz, #US_dataviz{
+        font-size: 14px;
+    }
+
+    .xAxis, .yAxis, .USxAxis, .USyAxis {
+        font-size: 0.85em;
+    }
+
+    .xAxisLabel, .yAxisLabel, .USxAxisLabel, .USyAxisLabel {
+        font-size:1.05em;
+    }
+
+    .chartTitle, .USchartTitle {
+        font-size:19px;
+    }
+
+    div.tooltip, div.UStooltip {					
+        font-size: 12px;			
+    }
+
+    table {
+        font-size:1em;
+        max-width:90%;
+        width:700px;
+    }
+
+}
+
+#chartSpace, #USChartSpace {
+    border: 1px solid gray;
+    background-color: rgb(4, 0, 39);
+    /*background-color: rgb(250, 255, 253);*/
+    margin: 8px;
+}
+
+.dot {
+    shape-rendering: geometricPrecision;
+    /*    fill: #79d6c1;*/
+    /*    fill: #40c5a6;*/
+    stroke: white;
+    stroke-width: 1.5;
+}
+
+.USdot{
+    shape-rendering: geometricPrecision;
+    stroke: white;
+    stroke-width: 1.5;
+}
+
 
 /*styling for grid lines*/
 .xGrid line, .yGrid line, .USxGrid line, .USyGrid line {
@@ -82,7 +119,8 @@ div.tooltip, div.UStooltip {
 /*Style for crosshair lines -- bisect on x/y axis when hovering*/
 
 .crosshairLine {
-    stroke: rgb(204, 24, 135);
+    stroke: rgb(168, 168, 168);
+    /*stroke: rgb(204, 24, 135);*/
     /*stroke: rgb(168, 24, 113);*/
     stroke-width: 2px;
     stroke-dasharray: 2;
@@ -90,7 +128,8 @@ div.tooltip, div.UStooltip {
 }
 
 .UScrosshairLine {
-    stroke: #79d6c1;
+    stroke: rgb(168, 168, 168);
+    /*stroke: #79d6c1;*/
     /*stroke: rgb(168, 24, 113);*/
     stroke-width: 2px;
     stroke-dasharray: 2;
@@ -100,10 +139,21 @@ div.tooltip, div.UStooltip {
 
 .regression, .USregression {
     stroke-width: 2px;
-    stroke: rgb(199, 194, 247);
+    stroke: white;
     /*stroke: rgb(32, 24, 148);*/
     stroke-dasharray: 4;
     pointer-events: none;
+}
+
+.legendLabel {
+    fill: white;
+}
+
+.legendBox {
+    fill:  white;
+    opacity: 0.25;
+    stroke-width: 1px;
+    stroke: rgb(165, 165, 165);
 }
 
 .equationWrapper, .USequationWrapper {
@@ -119,7 +169,7 @@ div.tooltip, div.UStooltip {
 
 .equation, .USequation {
     font-size:0.88em;
-    fill: rgb(199, 194, 247);
+    fill: white;
     width:130px;
     height:100px;
     /*font-style:italic;*/
@@ -131,25 +181,27 @@ div.tooltip, div.UStooltip {
     font-size: 12px;
     font-style: italic;
     pointer-events: none;
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .4));
 }
 
 .USdataLabel {
-    fill: white;
+    fill: rgb(255, 255, 255);
     opacity: 0.8;
     font-size: 12px;
     font-style: italic;
     pointer-events: none;
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .4));
+    /*
+    stroke: rgb(4, 0, 39);
+    stroke-width: 0.2px;
+    */
 }
 
-
-/* Table Styling */
-table {
-    border-collapse: collapse;
-    margin:auto;
-    font-size:1em;
-    max-width:90%;
-    width:700px;
+.trendlineLabel{
+    font-size:0.88em;
+    fill: white;
 }
+
 
 th {
     border: 1px solid rgb(126, 126, 126);
@@ -198,18 +250,19 @@ td {
     margin-bottom: 3px;
     display:block;
     text-align:center;
+    font-size: 16px; /*needs to be at least 16px to avoid zoom on mobile*/
     margin:auto;
     width:90%;	
 }
 
 .filterRegionInput, .USFilterRegionInput{
-    border: 2px solid #40c5a6;
-    background-color: #fdffff;
+    border:2px solid rgb(4, 0, 39);
+    background-color:rgb(253, 253, 255);
 }
 
 .apartmentSizeInput, .USApartmentSizeInput{
-    border:2px solid rgb(168, 24, 113);
-    background-color:rgb(255, 252, 253);
+    border:2px solid rgb(4, 0, 39);
+    background-color:rgb(253, 253, 255);
 }
 
 .USPopulationSizeInput{
@@ -218,19 +271,46 @@ td {
 }
 
 .filterRegionInput:focus, .USFilterRegionInput:focus {
-    border:2px solid #40c5a6;
-    background-color: #fdffff;
+    border:2px solid rgb(4, 0, 39);
+    background-color:rgb(253, 253, 255);
     outline: none;
 }
 
 .apartmentSizeInput:focus, .USApartmentSizeInput:focus {
-    border:2px solid rgb(168, 24, 113);
-    background-color:rgb(255, 252, 253);
+    border:2px solid rgb(4, 0, 39);
+    background-color:rgb(253, 253, 255);
     outline: none;
 }
 
 .dataTableWrapper{
     margin-top:30px;
+    height:60vh;
+    max-height:600px;
+    overflow:auto;
+}
+
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+    width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: 10px;
+    border: 2px solid #ffffff;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;  
+    background-color: #ffffff; 
 }
 
 .dataTable{
